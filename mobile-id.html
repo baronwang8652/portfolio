@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile ID — Ling-Lian Wang</title>
+<meta name="description" content="Designing carrier-based identity verification at DottedSign around a certificate authority's constraints — consent you can't click past, a cross-device handoff, and a full failure chain.">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">Ling-Lian Wang <span>/ Product Designer</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#work" aria-current="page">Work</a>
+      <a href="about.html">About</a>
+      <a href="assets/Ling-Lian-Wang-Resume.pdf">Résumé</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article>
+
+  <header class="article-head">
+    <div class="wrap">
+      <div class="eyebrow">
+        <span class="label">02 / DottedSign</span>
+        <span class="label">Shipped</span>
+      </div>
+      <h1 class="article-title">Mobile ID</h1>
+      <p class="article-deck">
+        Proving a signer is who they say they are, through their mobile carrier — on an
+        integration whose one hard rule decided the order of everything else.
+      </p>
+
+      <dl class="meta-grid">
+        <div>
+          <dt class="label">My role</dt>
+          <dd>Product Designer. Flow design, interaction rules, failure-state design,
+              functional spec. Visual execution by our UI designer.</dd>
+        </div>
+        <div>
+          <dt class="label">Team</dt>
+          <dd>PM · product designer (me) · UI designer · front-end · back-end · QA</dd>
+        </div>
+        <div>
+          <dt class="label">Integration</dt>
+          <dd>TWCA — Taiwan-CA, the national certificate authority, via the three mobile
+              carriers</dd>
+        </div>
+        <div>
+          <dt class="label">Also designed</dt>
+          <dd>A second method on the same roadmap using Taiwan's mobile Citizen Digital
+              Certificate</dd>
+        </div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="article-body">
+    <div class="wrap">
+
+      <aside class="tldr">
+        <p class="label">In short</p>
+        <dl>
+          <div><dt>Problem</dt><dd>An email link proves access to an inbox, not identity. And the
+            certificate authority's API <b>sealed a signature the moment it verified</b> &mdash;
+            which decided when verification could happen at all.</dd></div>
+          <div><dt>What I did</dt><dd>Split the feature between the person who requires it and the
+            person who satisfies it, <b>gated both legal agreements behind actually reading them</b>,
+            kept every screen inside our own product rather than redirecting, and designed the
+            failure chain through to notifying the one person who could resolve it.</dd></div>
+          <div><dt>Outcome</dt><dd>Shipped and demoed well. <b>Adoption stayed low.</b></dd></div>
+          <div><dt>What I'd change</dt><dd>We sold it as a general paid add-on instead of aiming it
+            at the regulated industries that actually needed it.</dd></div>
+        </dl>
+      </aside>
+
+      <h2>Why this existed</h2>
+      <p>
+        An electronic signature is worth exactly as much as the certainty that the right
+        person made it. Everything else in the product — the audit trail, the tamper-proofing,
+        the legal standing — rests on that one assumption.
+      </p>
+      <p>
+        An email link doesn't establish identity. It establishes access to an inbox. Kdan had
+        a roadmap for stronger verification, and <strong>Mobile ID</strong> was the first
+        method I designed: the signer's phone number, their SIM, and their national ID are
+        checked against carrier records, confirming that a specific real person is holding
+        that device.
+      </p>
+
+      <h2>The constraint that set the order of everything</h2>
+      <p>
+        A completed Mobile ID verification doesn't just return a yes. It causes a
+        <strong>personal certificate</strong> to be stamped onto what that signer just signed.
+        A stamped signature is sealed — it can't be revisited.
+      </p>
+      <p>
+        That single fact removed most of my design space. Verification could not happen when
+        the signer opens the task, and it could not happen before they place their signature.
+        Either would seal something that wasn't finished. Verification had to be the last
+        thing that happens, right after they submit.
+      </p>
+      <p>
+        And it is not the only certificate on the document. Once <em>every</em> party has
+        signed, the whole file goes to the certificate vendor for a second, document-level
+        <strong>system certificate</strong>. Two layers of trust, applied at two different
+        moments, for two different reasons: one proves <em>who signed</em>, the other proves
+        <em>the file hasn't been touched since</em>.
+      </p>
+      <p class="pull">
+        There was no research that would have changed this. The work was to accept the
+        constraint and then make sure the signer never had to feel it.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="cert-line">
+          <div class="cert-step">
+            <span class="when">Before</span>
+            <span class="what"><b>The signer places their signature</b>
+              Nothing is sealed yet. Fields are still editable, and the task can still change.</span>
+          </div>
+          <div class="cert-step seal">
+            <span class="when">On submit</span>
+            <span class="what"><b>Mobile ID verification → personal certificate</b>
+              The carrier confirms number, SIM and national ID. Success stamps a certificate
+              on this signer's signature. From here, their part is sealed — which is exactly
+              why verification cannot come any earlier.</span>
+          </div>
+          <div class="cert-step">
+            <span class="when">Between</span>
+            <span class="what"><b>The task moves to the next signer</b>
+              Each party repeats it. The document is partially sealed, party by party.</span>
+          </div>
+          <div class="cert-step seal">
+            <span class="when">At the end</span>
+            <span class="what"><b>All parties done → system certificate</b>
+              The completed file goes to the certificate vendor for a document-level seal.
+              Proof of who signed, and then proof that nothing changed after.</span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Two certificates, two moments, two claims.</b> Mapping this out was what turned an
+          arbitrary-feeling API restriction into a rule I could design around — and explain to
+          engineering and support in one diagram.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h2>Design decisions</h2>
+
+      <h3><span class="n">01</span>Two moments, two people</h3>
+      <p>
+        Mobile ID isn't one screen. It's a requirement set by one person and satisfied by
+        another, possibly days apart — so it lives in two places.
+      </p>
+      <p>
+        <strong>At task creation</strong>, the initiator marks a signer as requiring Mobile ID,
+        and can optionally pre-fill that signer's phone number. Pre-filling tightens the
+        requirement: only the person holding that number can complete the signature.
+      </p>
+      <p>
+        The strict version of this feature would make the phone number mandatory. But
+        initiators frequently don't have it — you send a contract to a counterparty whose
+        email you know and whose mobile number you don't. Requiring it would have made the
+        feature unusable in exactly the external-party cases where identity matters most.
+      </p>
+      <p>
+        So the field is optional, and it changes what the signer meets: pre-filled and locked,
+        or blank for them to enter. Two levels of strictness, one field, and the initiator
+        picks based on what they actually know.
+      </p>
+
+      <h3><span class="n">02</span>Consent you can't click past</h3>
+      <p>
+        Verification runs on two separate legal agreements — the carrier authentication terms
+        and the certificate service terms — and each one has to be accepted on its own.
+      </p>
+      <p>
+        In most products that means a checkbox next to a link nobody opens. Here,
+        <strong>the consent checkbox stays disabled until the terms have actually been scrolled
+        to the end</strong>. Reading isn't encouraged; it's the precondition.
+      </p>
+      <p>
+        It is a deliberately slower flow. In a product whose entire value is that a signature
+        holds up later, a consent nobody could have read is not worth having.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">MID — Mobile ID verification</div>
+              <div class="dialog-body">
+                <div class="terms top">
+                  <b>Mobile ID carrier authentication — terms of service and privacy notice</b><br><br>
+                  The identity verification service provided by Taiwan-CA using mobile phone
+                  numbers is delivered through the carriers. By choosing to agree or by using
+                  this service, you agree to the following terms…
+                </div>
+                <span class="consent">
+                  <span class="cbx"></span>
+                  Please review the terms before agreeing.
+                </span>
+              </div>
+              <div class="dialog-foot">
+                <span class="btn">Cancel</span>
+                <span class="btn" style="opacity:.45">Next</span>
+              </div>
+            </div>
+            <p class="cap">Not scrolled — consent locked</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">MID — Mobile ID verification</div>
+              <div class="dialog-body">
+                <div class="terms">
+                  …the company may amend these terms at any time. Amendments will be published
+                  on the service website without individual notice.<br><br>
+                  <b>Effect of declining to provide the information:</b> if you cannot or do not
+                  provide the personal data above, this service cannot be carried out.
+                </div>
+                <span class="consent on">
+                  <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span>
+                  Please review the terms before agreeing.
+                </span>
+              </div>
+              <div class="dialog-foot">
+                <span class="btn">Cancel</span>
+                <span class="btn primary">Next</span>
+              </div>
+            </div>
+            <p class="cap">Scrolled to the end — <b>consent unlocked</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Two agreements, each gated the same way.</b> The checkbox and the Next button stay
+          inert until the text has been read to the bottom — twice, once per agreement, before
+          verification can begin at all.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">03</span>Move the signer to their phone without losing them</h3>
+      <p>
+        Carrier verification needs the phone. Most enterprise signing happens on a desktop.
+        So after the agreements, a QR code hands the signer across to their own device — and
+        if they were already signing on mobile, there is no QR code at all.
+      </p>
+      <p>
+        The page they land on is <strong>ours</strong>. Our back end calls TWCA; every screen
+        the signer sees belongs to DottedSign. The obvious build is to redirect to the
+        authority's own page, and it's what most integrations do. But a redirect to an
+        unfamiliar government-adjacent site, in the middle of signing a legal document, is
+        precisely where a careful person stops and wonders whether they are being phished.
+      </p>
+
+      <h3><span class="n">04</span>Say "turn off Wi-Fi", and say it where it matters</h3>
+      <p>
+        Carrier verification only works over mobile data. On Wi-Fi it fails. This is an absurd
+        thing to ask someone mid-signature, and it is non-negotiable — so the instruction
+        appears twice: on the QR screen <em>before</em> they pick up their phone, and again on
+        the phone itself, next to the number field.
+      </p>
+      <p>
+        Told only that something is broken, people assume the product is broken. Told
+        <em>why</em>, they turn off Wi-Fi.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">MID — Mobile ID verification</div>
+              <div class="qr-wrap">
+                <svg class="qr" viewBox="-1 -1 23 23" role="img" aria-label="QR code linking to the mobile verification page"><rect x="-1" y="-1" width="23" height="23" fill="#fff"/><g fill="currentColor" shape-rendering="crispEdges"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="11" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="16" y="0" width="1" height="1"/><rect x="17" y="0" width="1" height="1"/><rect x="18" y="0" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="14" y="1" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="11" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="17" y="2" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="11" y="3" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="17" y="3" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="12" y="4" width="1" height="1"/><rect x="14" y="4" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="17" y="4" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="20" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="14" y="5" width="1" height="1"/><rect x="20" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="14" y="6" width="1" height="1"/><rect x="15" y="6" width="1" height="1"/><rect x="16" y="6" width="1" height="1"/><rect x="17" y="6" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="8" y="7" width="1" height="1"/><rect x="1" y="8" width="1" height="1"/><rect x="2" y="8" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="5" y="8" width="1" height="1"/><rect x="6" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="14" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="19" y="8" width="1" height="1"/><rect x="0" y="9" width="1" height="1"/><rect x="2" y="9" width="1" height="1"/><rect x="3" y="9" width="1" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="7" y="9" width="1" height="1"/><rect x="19" y="9" width="1" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="5" y="10" width="1" height="1"/><rect x="6" y="10" width="1" height="1"/><rect x="14" y="10" width="1" height="1"/><rect x="15" y="10" width="1" height="1"/><rect x="16" y="10" width="1" height="1"/><rect x="18" y="10" width="1" height="1"/><rect x="19" y="10" width="1" height="1"/><rect x="2" y="11" width="1" height="1"/><rect x="4" y="11" width="1" height="1"/><rect x="5" y="11" width="1" height="1"/><rect x="17" y="11" width="1" height="1"/><rect x="19" y="11" width="1" height="1"/><rect x="20" y="11" width="1" height="1"/><rect x="0" y="12" width="1" height="1"/><rect x="1" y="12" width="1" height="1"/><rect x="3" y="12" width="1" height="1"/><rect x="4" y="12" width="1" height="1"/><rect x="6" y="12" width="1" height="1"/><rect x="14" y="12" width="1" height="1"/><rect x="15" y="12" width="1" height="1"/><rect x="16" y="12" width="1" height="1"/><rect x="18" y="12" width="1" height="1"/><rect x="20" y="12" width="1" height="1"/><rect x="8" y="13" width="1" height="1"/><rect x="9" y="13" width="1" height="1"/><rect x="10" y="13" width="1" height="1"/><rect x="15" y="13" width="1" height="1"/><rect x="16" y="13" width="1" height="1"/><rect x="17" y="13" width="1" height="1"/><rect x="19" y="13" width="1" height="1"/><rect x="20" y="13" width="1" height="1"/><rect x="0" y="14" width="1" height="1"/><rect x="1" y="14" width="1" height="1"/><rect x="2" y="14" width="1" height="1"/><rect x="3" y="14" width="1" height="1"/><rect x="4" y="14" width="1" height="1"/><rect x="5" y="14" width="1" height="1"/><rect x="6" y="14" width="1" height="1"/><rect x="13" y="14" width="1" height="1"/><rect x="14" y="14" width="1" height="1"/><rect x="15" y="14" width="1" height="1"/><rect x="16" y="14" width="1" height="1"/><rect x="19" y="14" width="1" height="1"/><rect x="20" y="14" width="1" height="1"/><rect x="0" y="15" width="1" height="1"/><rect x="6" y="15" width="1" height="1"/><rect x="8" y="15" width="1" height="1"/><rect x="10" y="15" width="1" height="1"/><rect x="12" y="15" width="1" height="1"/><rect x="14" y="15" width="1" height="1"/><rect x="19" y="15" width="1" height="1"/><rect x="0" y="16" width="1" height="1"/><rect x="2" y="16" width="1" height="1"/><rect x="3" y="16" width="1" height="1"/><rect x="4" y="16" width="1" height="1"/><rect x="6" y="16" width="1" height="1"/><rect x="8" y="16" width="1" height="1"/><rect x="10" y="16" width="1" height="1"/><rect x="12" y="16" width="1" height="1"/><rect x="13" y="16" width="1" height="1"/><rect x="14" y="16" width="1" height="1"/><rect x="15" y="16" width="1" height="1"/><rect x="16" y="16" width="1" height="1"/><rect x="18" y="16" width="1" height="1"/><rect x="19" y="16" width="1" height="1"/><rect x="20" y="16" width="1" height="1"/><rect x="0" y="17" width="1" height="1"/><rect x="2" y="17" width="1" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="4" y="17" width="1" height="1"/><rect x="6" y="17" width="1" height="1"/><rect x="8" y="17" width="1" height="1"/><rect x="10" y="17" width="1" height="1"/><rect x="13" y="17" width="1" height="1"/><rect x="15" y="17" width="1" height="1"/><rect x="0" y="18" width="1" height="1"/><rect x="2" y="18" width="1" height="1"/><rect x="3" y="18" width="1" height="1"/><rect x="4" y="18" width="1" height="1"/><rect x="6" y="18" width="1" height="1"/><rect x="8" y="18" width="1" height="1"/><rect x="9" y="18" width="1" height="1"/><rect x="11" y="18" width="1" height="1"/><rect x="14" y="18" width="1" height="1"/><rect x="17" y="18" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/><rect x="20" y="18" width="1" height="1"/><rect x="0" y="19" width="1" height="1"/><rect x="6" y="19" width="1" height="1"/><rect x="9" y="19" width="1" height="1"/><rect x="10" y="19" width="1" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="18" y="19" width="1" height="1"/><rect x="19" y="19" width="1" height="1"/><rect x="0" y="20" width="1" height="1"/><rect x="1" y="20" width="1" height="1"/><rect x="2" y="20" width="1" height="1"/><rect x="3" y="20" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="5" y="20" width="1" height="1"/><rect x="6" y="20" width="1" height="1"/><rect x="9" y="20" width="1" height="1"/><rect x="15" y="20" width="1" height="1"/><rect x="18" y="20" width="1" height="1"/><rect x="19" y="20" width="1" height="1"/></g><rect x="8.6" y="8.6" width="3.8" height="3.8" rx="0.7" fill="#fff"/><path d="M10.5 9.4c.9 0 1.5.7 1.5 1.5 0 .9-.7 1.6-1.5 2.1-.9-.5-1.5-1.2-1.5-2.10-.8.6-1.5 1.5-1.5z" fill="var(--accent)"/></svg>
+                <p class="qr-note">Before scanning, please turn off Wi-Fi on your phone and
+                  switch to the mobile network.</p>
+              </div>
+            </div>
+            <p class="cap">Desktop — the handoff</p>
+          </figure>
+          <figure>
+            <div class="mock" style="background:transparent;border:0;box-shadow:none">
+              <div class="phone">
+                <div class="phone-top"></div>
+                <div class="phone-body">
+                  <span class="phone-brand"><i></i>DottedSign</span>
+                  <span class="mock-h" style="font-size:.875rem">Confirm your details and verify</span>
+                  <div class="fieldset">
+                    <span class="lb">Mobile number</span>
+                    <span class="note">*Turn off Wi-Fi and switch to the mobile network before scanning.</span>
+                    <div class="duo">
+                      <span class="inp">+886 <span class="cx">&#9662;</span></span>
+                      <span class="inp masked">0000000000</span>
+                    </div>
+                  </div>
+                  <div class="fieldset">
+                    <span class="lb">Carrier</span>
+                    <span class="inp">Chunghwa Telecom <span class="cx">&#9662;</span></span>
+                  </div>
+                  <div class="fieldset">
+                    <span class="lb">National ID number</span>
+                    <span class="inp ph">National ID number</span>
+                  </div>
+                  <div class="fieldset">
+                    <span class="lb">Date of issue</span>
+                    <div class="trio">
+                      <span class="inp">94 <span class="cx">&#9662;</span></span>
+                      <span class="inp">1 <span class="cx">&#9662;</span></span>
+                      <span class="inp">1 <span class="cx">&#9662;</span></span>
+                    </div>
+                  </div>
+                  <div class="duo">
+                    <div class="fieldset"><span class="lb">Place of issue</span>
+                      <span class="inp">Keelung <span class="cx">&#9662;</span></span></div>
+                    <div class="fieldset"><span class="lb">Issue type</span>
+                      <span class="inp">First <span class="cx">&#9662;</span></span></div>
+                  </div>
+                  <span class="btn primary block">Verify</span>
+                </div>
+              </div>
+            </div>
+            <p class="cap">Phone — <b>six fields, all of them required by the carrier</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>The heaviest screen in the flow, and the one I had least control over.</b> Number,
+          carrier, national ID, and the date, place and type of that ID's issuance — the
+          carrier match needs all of it. What I could control was that it stays inside our
+          product, and that the Wi-Fi requirement is stated where the signer is about to hit it.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">05</span>Close the loop back to the other device</h3>
+      <p>
+        A cross-device handoff has two ends, and the second one is where people get stranded.
+        The phone succeeds, and then… nothing, because the thing that continues is the laptop
+        they walked away from.
+      </p>
+      <p>
+        So the phone doesn't just say <em>verified</em>. It says <strong>close this page and go
+        back to your computer</strong>. And the desktop screen that greets them explains what
+        happens next without them: everyone else signs, then the file goes for its document-level
+        seal.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock" style="background:transparent;border:0;box-shadow:none">
+              <div class="phone">
+                <div class="phone-top"></div>
+                <div class="phone-body" style="padding-block:var(--s-7);text-align:center">
+                  <span class="ok-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg>
+                  </span>
+                  <span class="mock-h" style="font-size:.9375rem">Identity verified</span>
+                  <p class="mock-sub">Please close this page and return to your computer to
+                    continue.</p>
+                </div>
+              </div>
+            </div>
+            <p class="cap">Phone — an instruction, not just a state</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="mock-body" style="text-align:center;justify-items:center;padding-block:var(--s-8)">
+                <span class="mock-h" style="color:var(--accent);font-size:1.05rem">Signing completed</span>
+                <p class="mock-sub" style="max-width:24rem">
+                  Once all parties have signed, the file will be sent to the certificate vendor
+                  to be sealed. You can close this screen and wait for the task to move to the
+                  next stage.
+                </p>
+              </div>
+            </div>
+            <p class="cap">Desktop — <b>what happens without you</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Ending a handoff properly means telling both devices what's next.</b> The phone
+          sends the signer back; the desktop explains the second certificate they'll never see
+          being applied.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">06</span>Design the failure chain, not just the happy path</h3>
+      <p>
+        Mistyped digits are the most common failure and the only recoverable one. Everything
+        else — a number that doesn't match carrier records, a signer without Mobile ID at all —
+        cannot be fixed by trying again.
+      </p>
+      <p>
+        The part I'd defend hardest is the last step. Without it, a locked-out signer produces
+        a task that silently stops moving, and the initiator finds out days later when they
+        chase it. Routing the failure to the person who can actually resolve it turns a dead
+        end into a handoff.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="states">
+          <div class="state">
+            <span class="k">1&ndash;5</span>
+            <span><b>Wrong details</b> — the signer corrects their input and tries again</span>
+            <span class="out">recoverable</span>
+          </div>
+          <div class="state stop">
+            <span class="k">5+</span>
+            <span><b>Verification locks for 24 hours</b> — retrying is no longer the answer</span>
+            <span class="out">blocked</span>
+          </div>
+          <div class="state stop">
+            <span class="k">&rarr;</span>
+            <span><b>The task moves to pending</b>, rather than failing or quietly expiring</span>
+            <span class="out">held, not lost</span>
+          </div>
+          <div class="state hand">
+            <span class="k">&rarr;</span>
+            <span><b>The initiator is emailed</b> that their task is on hold — the one person
+              who can call the signer, or reissue with a different method</span>
+            <span class="out">handed off</span>
+          </div>
+          <div class="state">
+            <span class="k">sys</span>
+            <span><b>System-level errors show an error code</b> the signer can bring to support,
+              instead of a generic apology that gives our team nothing to work with</span>
+            <span class="out">diagnosable</span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Reconstructed from the specification — these states aren't in the product's public
+          walkthrough.</b> Five attempts, then a lockout, then a held task, then a person who
+          can do something about it.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">07</span>Decide what the system should not solve</h3>
+      <p>
+        Some signers don't have Mobile ID at all. I chose not to build a path for it — no
+        in-flow fallback, no alternative-method picker at the point of failure.
+      </p>
+      <p>
+        If a signer can't verify this way, the resolution is a conversation with the initiator,
+        who can reissue the task with a different method. An in-flow alternative would have let
+        the signer downgrade the security level the initiator deliberately chose — which is the
+        one thing the feature exists to prevent.
+      </p>
+      <p>Adding a screen there would have looked more thorough and been worse.</p>
+
+      <h2>Outcome</h2>
+      <p>
+        The feature shipped and worked. Sales reported that clients found the flow clear and
+        easy to follow in demos — which, for a step involving two legal agreements, a QR
+        handoff, a carrier network requirement and six identity fields, was the bar.
+      </p>
+      <p>Adoption was low.</p>
+
+      <h2>What I take from it</h2>
+      <p>
+        Mobile ID was a paid add-on, positioned as an upgrade available to any customer. Most
+        customers didn't take it.
+      </p>
+      <p>
+        The easy read is that the market wasn't ready, and there's something to that. Plenty of
+        users didn't feel they needed a certificate on their documents at all. Security maturity
+        in the market genuinely lagged what the product could offer, and building ahead of that
+        curve was a deliberate bet, not an accident.
+      </p>
+      <p>
+        But that framing lets the design off too easily. There <em>was</em> a group who needed
+        this urgently — regulated industries, real estate, anything with a real impersonation
+        risk. We built the right thing and then offered it to everyone equally, as a line item
+        on a pricing page, instead of aiming it at the people whose problem it solved.
+      </p>
+      <p class="pull">
+        Being early to a need is a defensible strategy. It only pays off if you find the
+        minority who have that need today. We designed the feature well and never did that
+        second part.
+      </p>
+    </div>
+  </div>
+</article>
+
+<div class="wrap">
+  <nav class="next" aria-label="Next case study">
+    <span class="label">Previous case</span>
+    <a href="editor-role.html"><span class="arrow" aria-hidden="true">&larr;</span> The Editor Role</a>
+  </nav>
+</div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Looking for a co-op from Winter&nbsp;2027.</h2>
+        <p class="hero-lead" style="font-size: var(--fs-body)">
+          I'm most useful on B2B products with real operational complexity behind them.
+          If that's what you're building, I'd like to hear about it.
+        </p>
+      </div>
+      <ul class="contact-list">
+        <li><a href="mailto:baronwang.ca@gmail.com">baronwang.ca@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/ling-lian-wang">LinkedIn</a></li>
+        <li><a href="assets/Ling-Lian-Wang-Resume.pdf">Résumé (PDF)</a></li>
+      </ul>
+    </div>
+    <p class="colophon">
+      Interfaces rebuilt from scratch to explain the design. No confidential material or
+      original product assets.
+    </p>
+  </div>
+</footer>
+</body>
+</html>

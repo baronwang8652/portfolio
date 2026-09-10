@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Editor Role — Ling-Lian Wang</title>
+<meta name="description" content="Designing a second editor into a signing workflow at DottedSign — role modelling, permission inheritance, destructive-change warnings, and the rules we designed but didn't ship.">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">Ling-Lian Wang <span>/ Product Designer</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#work" aria-current="page">Work</a>
+      <a href="about.html">About</a>
+      <a href="assets/Ling-Lian-Wang-Resume.pdf">Résumé</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article>
+
+  <header class="article-head">
+    <div class="wrap">
+      <div class="eyebrow">
+        <span class="label">01 / DottedSign</span>
+        <span class="label">Shipped</span>
+      </div>
+      <h1 class="article-title">The Editor Role</h1>
+      <p class="article-deck">
+        The person who starts a signing task is often not the person who knows what belongs
+        in it. Designing a second pair of hands into a workflow whose whole value is that
+        nothing can change once it starts.
+      </p>
+
+      <dl class="meta-grid">
+        <div>
+          <dt class="label">My role</dt>
+          <dd>Product Designer. Problem definition, user flows, interaction rules, functional
+              spec. Visual execution by our UI designer; I owned the behaviour and the rules.</dd>
+        </div>
+        <div>
+          <dt class="label">Team</dt>
+          <dd>PM · product designer (me) · UI designer · front-end · back-end · QA</dd>
+        </div>
+        <div>
+          <dt class="label">Timeline</dt>
+          <dd>About one month, design through release</dd>
+        </div>
+        <div>
+          <dt class="label">Product</dt>
+          <dd>DottedSign — a B2B e-signature platform by Kdan Mobile, delivered as cloud
+              SaaS and on-premise</dd>
+        </div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="article-body">
+    <div class="wrap">
+
+      <aside class="tldr">
+        <p class="label">In short</p>
+        <dl>
+          <div><dt>Problem</dt><dd>The person who creates a signing task often isn't the person
+            who knows what belongs in it &mdash; but an e-signature product's whole value rests on
+            a task <b>not</b> changing once it starts.</dd></div>
+          <div><dt>What I did</dt><dd>Made <b>Editor a role an existing recipient can hold</b>,
+            working under the initiator's plan entitlements rather than their own. Ordered signing
+            is switched on for you rather than demanded of you, and any destructive consequence is
+            stated before it happens.</dd></div>
+          <div><dt>Outcome</dt><dd>Shipped in about a month and unblocked the enterprise client
+            whose core workflow depended on it. <b>It was also used almost exclusively by that one
+            client.</b></dd></div>
+          <div><dt>What I'd change</dt><dd>We never showed the design to the client who asked for
+            it, and never tested whether the gap I'd found existed anywhere else.</dd></div>
+        </dl>
+      </aside>
+
+      <h2>The system I was designing inside</h2>
+      <p>
+        An e-signature product rests on one promise: once a document is signed, nothing about
+        it can change. That promise is what gives the signature legal weight, and DottedSign
+        enforced it strictly. Create a signing task and its contents were fixed.
+      </p>
+      <p>That constraint was correct. It was also blocking a sale.</p>
+
+      <h2>The trigger</h2>
+      <p>
+        A large Japanese real estate client told us they would not buy without the ability to
+        change a task after it had been created. It would have been easy to log that as one
+        client's custom requirement. When I looked at how they actually worked, it wasn't.
+      </p>
+      <p>
+        In their offices the person who creates a signing task is an administrative assistant.
+        Their job is to start the process. They are not the person who knows which contracts a
+        given deal requires — that is the case handler, further down the chain. The client told
+        us this pattern covered around <strong>70% of their signing volume</strong>.
+      </p>
+      <p>
+        DottedSign's model assumed the initiator was also the person who understood the deal.
+        For this client — and for any organization where administrative work and domain
+        knowledge sit with different people — that assumption was wrong.
+      </p>
+      <p class="pull">
+        How do you let a second person shape a task in flight, without weakening the
+        immutability the product's legal standing depends on?
+      </p>
+
+      <h2>Constraints I was working within</h2>
+      <ol class="constraints">
+        <li><span><b>Legal.</b> Nothing already signed may change, and every change must be
+          attributable.</span></li>
+        <li><span><b>Technical.</b> The document framework couldn't support inserting an
+          editing step at an arbitrary point in a flow.</span></li>
+        <li><span><b>Commercial.</b> Feature access in DottedSign is gated by account
+          plan tier.</span></li>
+        <li><span><b>Time.</b> The deal had a deadline.</span></li>
+      </ol>
+
+      <h2>Design decisions</h2>
+
+      <h3><span class="n">01</span>Make Editor a role, not a new surface</h3>
+      <p>
+        A task in DottedSign is already a list of recipients. Each row has an avatar, a role,
+        a name and an email, and a <em>⋯</em> menu holding that recipient's advanced settings.
+        Rather than introduce a separate concept, I made <strong>Editor a value of the role
+        the recipient already has</strong> — chosen in the panel where senders already go to
+        configure a recipient.
+      </p>
+      <p>
+        Nothing new to find, and nothing new to learn. If you knew how to add a signer, you
+        already knew how to add an editor.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="mock">
+          <div class="mock-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>Create a signing task — Manage Recipients</span>
+          </div>
+          <div class="mock-body">
+            <div class="flow">
+              <div>
+                <div class="mock-h" style="margin-bottom:var(--s-3)">Manage Recipients</div>
+                <p class="setorder" style="margin-bottom:var(--u3)">
+                  <span class="box" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg>
+                  </span>
+                  Set Order
+                  <span class="aside">Import Signer Group
+                    <svg class="hint" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
+                  </span>
+                </p>
+                <div class="rcpts ordered">
+                  <div class="rcpt is-editor">
+                    <span class="av c1" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
+                    </span>
+                    <span class="role">Editor</span>
+                    <span class="fld filled">K. Sato</span>
+                    <span class="fld filled">sato@&mdash;.jp</span>
+                    <span class="dots" aria-hidden="true">&#8943;</span>
+                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
+                  </div>
+                  <div class="rcpt">
+                    <span class="av c2" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+                    </span>
+                    <span class="role">Signers</span>
+                    <span class="fld filled">Customer</span>
+                    <span class="fld filled">info@&mdash;.com</span>
+                    <span class="dots" aria-hidden="true">&#8943;</span>
+                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
+                  </div>
+                </div>
+                <p class="link" style="margin-top:var(--u3)">Add Recipient</p>
+              </div>
+
+              <div class="flow-arrow">
+                <span>Row menu &#8943;</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </div>
+
+              <div class="dialog">
+                <div class="dialog-head">Advanced Settings</div>
+                <div class="dialog-body">
+                  <div class="fset">
+                    <span class="lg">Current Role</span>
+                    <span class="radio"><span class="rb"></span>Signer</span>
+                    <span class="radio on">
+                      <span class="rb"></span>Editor
+                      <svg class="hint" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
+                      <span class="crown" title="Paid plan feature">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg>
+                      </span>
+                    </span>
+                  </div>
+                  <div class="fset">
+                    <span class="lg">Identity Authentication</span>
+                    <span class="val">Not required</span>
+                    <span class="lnk">Edit</span>
+                  </div>
+                </div>
+                <div class="dialog-foot">
+                  <span class="btn">Cancel</span><span class="btn primary">Confirm</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Editor is a role a recipient can hold.</b> Same row, same ordering line, same
+          settings panel that already held identity verification. The crown marks it as a paid
+          plan feature.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">02</span>Let the panel shed what the role can't use</h3>
+      <p>
+        A signer's advanced settings carry two things an editor has no use for: <strong>Checkers</strong>,
+        who confirm the fields are properly filled before a signer completes, and <strong>Signer's
+        Final Confirmation</strong>. An editor never signs, so neither applies to them.
+      </p>
+      <p>
+        Rather than disable them, or show them and let people wonder, the panel simply stops
+        rendering them. Choosing Editor makes the panel shorter.
+      </p>
+      <p>
+        This is the part of the work I'd point at if someone asked what "clean" means in our
+        product. It doesn't mean showing less. It means <em>showing what this particular role
+        can actually act on</em> — which takes deciding, per role, what is real.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">Advanced Settings</div>
+              <div class="dialog-body">
+                <div class="fset">
+                  <span class="lg">Current Role</span>
+                  <span class="radio on"><span class="rb"></span>Signer</span>
+                  <span class="radio"><span class="rb"></span>Editor
+                    <span class="crown"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg></span>
+                  </span>
+                </div>
+                <div class="fset">
+                  <span class="lg">Identity Authentication</span>
+                  <span class="val">Not required</span><span class="lnk">Edit</span>
+                </div>
+                <div class="fset">
+                  <span class="lg">Checkers</span>
+                  <span class="tip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+                    <span>The Checker(s) confirms if all fields are properly filled in before
+                      the signer completes the signing process.</span>
+                  </span>
+                  <span class="fld" style="border:1px solid var(--line);border-radius:6px;padding:7px var(--s-3);color:var(--fg-mute)">Select checkers…</span>
+                </div>
+                <div class="fset">
+                  <span class="lg">Signer's Final Confirmation</span>
+                  <span class="permrow">
+                    <span>Don't need to ask for signers' confirmation after passing the
+                      checking process.</span>
+                    <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <p class="cap">Role: signer</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">Advanced Settings</div>
+              <div class="dialog-body">
+                <div class="fset">
+                  <span class="lg">Current Role</span>
+                  <span class="radio"><span class="rb"></span>Signer</span>
+                  <span class="radio on"><span class="rb"></span>Editor
+                    <span class="crown"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg></span>
+                  </span>
+                </div>
+                <div class="fset">
+                  <span class="lg">Identity Authentication</span>
+                  <span class="val">Not required</span><span class="lnk">Edit</span>
+                </div>
+              </div>
+            </div>
+            <p class="cap">Role: <b>editor</b> — two settings gone</p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>The same panel, one radio apart.</b> Checkers and Signer's Final Confirmation
+          only mean something to someone who signs, so for an editor they aren't rendered at
+          all. Identity verification stays — an editor can be required to prove who they are
+          before they touch the task.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">03</span>Make the invalid state impossible to build</h3>
+      <p>
+        An editor only makes sense in an ordered flow. Someone has to go first and hand on to
+        the next person; in unordered signing, where everyone signs at once, there is no
+        "before" for the editor to occupy.
+      </p>
+      <p>
+        We could have blocked the combination with an error. Instead, <strong>choosing Editor
+        turns ordered signing on</strong>. The product states the rule — <em>"Editors can only
+        be used in ordered signing"</em> — and then satisfies it for you.
+      </p>
+      <p>
+        Validation tells someone they got it wrong after they've already done it. Making the
+        invalid state unreachable means they never get to be wrong.
+      </p>
+
+      <h3><span class="n">04</span>Say out loud what a role change destroys</h3>
+      <p>
+        Switching a recipient's role invalidates the fields and settings already attached to
+        them — a signature field belonging to a person who is no longer a signer has nowhere
+        to go. So it clears them.
+      </p>
+      <p>
+        That is a destructive, non-obvious consequence of what looks like a small radio button,
+        which is precisely when a product owes the user a sentence and a chance to back out.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">Warning</div>
+              <div class="dialog-body">
+                <p class="msg">
+                  If you change the role in the task, the existing settings or fields will be
+                  deleted, and the recipient's role will revert to its default values.
+                  Are you sure you want to change the role?
+                </p>
+              </div>
+              <div class="dialog-foot">
+                <span class="btn">Cancel</span><span class="btn danger">Confirm</span>
+              </div>
+            </div>
+            <p class="cap">Destructive change, stated plainly</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="mock-body">
+                <p class="setorder">
+                  <span class="box" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg>
+                  </span>
+                  Set Order
+                </p>
+                <div class="tip">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+                  <span>Editors can only be used in ordered signing. Once the editor role is
+                    set, Set Order will be automatically selected.</span>
+                </div>
+                <div class="rcpts">
+                  <div class="rcpt is-editor">
+                    <span class="av c1" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
+                    </span>
+                    <span class="role">Editor</span>
+                    <span class="fld filled">K. Sato</span>
+                    <span class="fld filled">sato@&mdash;.jp</span>
+                    <span class="dots" aria-hidden="true">&#8943;</span>
+                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="cap">The precondition, <b>satisfied for you</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Two different jobs for two different moments.</b> Where the consequence is
+          destructive and invisible, the product interrupts. Where the requirement is knowable
+          in advance, it just handles it.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">05</span>Inherit the initiator's plan, not your own</h3>
+      <p>This is the decision I spent the longest on.</p>
+      <p>
+        DottedSign gates features by account plan. If the initiator's plan includes advanced
+        field types and the editor's doesn't, what can the editor do? Working under their own
+        plan, they can't finish the task — they might be unable to place a field the initiator
+        needs. The task becomes unfixable, which defeats the entire feature.
+      </p>
+      <p>
+        So the editor works with <strong>the initiator's entitlements</strong>, for that task
+        only. They are acting on the initiator's behalf, so they get the initiator's
+        capabilities. It also makes the editor's own plan irrelevant — which is what allows
+        the editor to be someone outside the company entirely.
+      </p>
+
+      <h3><span class="n">06</span>Let the editor hand the job on, or refuse it</h3>
+      <p>
+        Being assigned as the editor doesn't make you the right editor. The initiator is
+        guessing about someone else's knowledge and availability, and sometimes the guess is
+        wrong.
+      </p>
+      <p>
+        So I gave the editor two exits, both switched on by the initiator: <strong>hand the
+        editing privilege to someone else</strong>, or <strong>decline and stop the task</strong>.
+        The permission model decides whether those exits exist; the editor decides whether to
+        use them.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="mock">
+          <div class="dialog-head">Signer's Permissions</div>
+          <div class="dialog-body">
+            <div class="who">
+              <span class="av c1" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
+              </span>
+              <span><span class="who-role">Editor</span><br>
+                <span class="who-name">K. Sato (sato@&mdash;.jp)</span></span>
+            </div>
+            <div class="permlist">
+              <span class="permrow"><span>Hand over editing privilege</span>
+                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
+              <span class="permrow"><span>Decline to edit</span>
+                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
+              <span class="permrow"><span>View other signers' attachments before the task is completed</span>
+                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
+              <span class="permrow"><span>Receive all signers' attachments and the original files after the task is completed</span>
+                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>An assigned job you can pass on or turn down.</b> Handing over and declining are
+          the editor's own controls, but whether they exist is the initiator's call — the
+          person carrying the risk decides how much room the editor gets.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">07</span>Show both sides of the wait</h3>
+      <p>
+        Handing a task to a second person creates a gap where nothing appears to be happening.
+        For the initiator, the task simply stops. For the editor, it arrives without context.
+      </p>
+      <p>
+        The initiator's task gets a banner across the top of the document saying exactly what
+        it is waiting for. The editor opens the same field editor the initiator would have
+        used — and the signer selector reads <strong>No signer set</strong>, because at this
+        point there genuinely isn't one. That empty state <em>is</em> the brief: adding the
+        signer is the editor's job.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <p class="banner">The task is waiting for the editor to complete the edits.</p>
+              <div class="appbar">
+                <span class="title">Quotation_ABC Company Inc.</span>
+                <span class="btn primary">File Info</span>
+                <span class="dots" aria-hidden="true">&#8943;</span>
+              </div>
+              <div class="paper">
+                <span class="h">Quotation</span>
+                <span class="ln m"></span><span class="ln"></span><span class="ln s"></span>
+                <span class="row">Customer:</span>
+                <span class="row">Address:</span>
+                <span class="row">Email:</span>
+              </div>
+            </div>
+            <p class="cap">Initiator — stalled, and told why</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="appbar">
+                <span class="title">Quotation_ABC Company Inc.</span>
+                <span class="btn primary">Continue</span>
+              </div>
+              <div class="editor-shell">
+                <div class="rail">
+                  <span class="grp">Upload Documents <span class="ed">Edit</span></span>
+                  <span class="grp">Recipient <span class="ed">Edit</span></span>
+                  <span class="grp" style="border:0">Create Fields</span>
+                  <span class="selector empty">No signer set <span class="cx">&#9662;</span></span>
+                  <span class="flds">
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21c3-1 5-3 9-9 2-3 4-6 6-8"/><path d="M14 6l4 4"/></svg>Signature</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Date</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg>Text</span>
+                  </span>
+                </div>
+                <div class="paper">
+                  <span class="h">Quotation</span>
+                  <span class="ln m"></span><span class="ln"></span>
+                  <span class="row">Customer: <span class="filled-field">ABC Company Inc.<span class="req">*</span></span></span>
+                  <span class="row">Address: <span class="filled-field">123 Main Street, Anytown<span class="req">*</span></span></span>
+                  <span class="row">Email: <span class="filled-field">info@abccompany.com<span class="req">*</span></span></span>
+                </div>
+              </div>
+            </div>
+            <p class="cap">Editor — <b>an empty state that is the brief</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>The same pause, described from both ends.</b> The initiator is told what is
+          holding the task. The editor is handed a signer selector with nothing in it —
+          the clearest possible statement of what they are here to do.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h3><span class="n">08</span>Name who is asking, and for what</h3>
+      <p>
+        An editor can be required to verify their identity before they finish. Verification
+        prompts are where people stop and wonder whether they are being phished, so the modal
+        answers both questions at once: <strong>who is asking</strong>, and
+        <strong>by what method</strong>.
+      </p>
+      <p>
+        And when the editor's work is done, it ends on its own screen rather than dropping
+        them back into a list. Their part is genuinely over — the signing invitation goes out
+        automatically from there.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="compare">
+          <figure>
+            <div class="mock">
+              <div class="dialog-head">Verify Your Identity</div>
+              <div class="dialog-body">
+                <p class="msg">
+                  <b>Sales Representative</b> requires you to verify your identity with
+                  <b>Receive OTP via email</b>.
+                </p>
+                <span class="btn primary" style="justify-self:center">Get OTP verification code</span>
+              </div>
+              <div class="dialog-foot">
+                <span class="btn">Cancel</span>
+                <span class="btn" style="opacity:.45">Confirm</span>
+              </div>
+            </div>
+            <p class="cap">Requester named, method named</p>
+          </figure>
+          <figure>
+            <div class="mock">
+              <div class="mock-body" style="text-align:center;justify-items:center;padding-block:var(--s-8)">
+                <span class="mock-h" style="color:var(--accent);font-size:1.15rem">Task Editing Completed</span>
+                <p class="mock-sub" style="max-width:26rem">
+                  A completed signed document will be sent to your email once all parties
+                  finish signing.
+                </p>
+                <span class="toast">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+                  Task successfully edited.
+                </span>
+              </div>
+            </div>
+            <p class="cap">A real ending, <b>not a redirect</b></p>
+          </figure>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>Two moments people usually get told nothing.</b> A verification request that
+          says who wants it, and a completion screen that confirms the handoff worked and the
+          next stage will start without them.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h2>What I designed and we didn't ship</h2>
+      <p>
+        I designed the Editor role to be placeable at any point in a flow — a case handler
+        stepping in halfway, after some parties have already signed. That version needed rules
+        the first-stage version never has to use: signed documents locked and visibly
+        unselectable, an editor's authority running forward only, changes attributed in the
+        audit trail.
+      </p>
+      <p>
+        The document framework couldn't support inserting an editing step at an arbitrary
+        position within the deadline. I laid out the options and their costs, and the PM chose
+        to ship the first-stage version, which covered the client's actual scenario.
+      </p>
+      <p>
+        So the immutability rules I designed are, so far, rules about a situation that cannot
+        occur: <strong>an editor at the first stage runs before anyone has signed anything.</strong>
+        And opening later stages needs more rules than the ones I wrote — what happens to a
+        signer who has already been notified, whether a completed stage can be reopened at all.
+      </p>
+    </div>
+
+    <figure class="figure">
+      <div class="wrap">
+        <div class="scope-diagram">
+          <div class="scope-row">
+            <span class="label">Shipped</span>
+            <div class="scope-track">
+              <span class="scope-cell ed">Editor</span>
+              <span class="scope-cell">Signer</span>
+              <span class="scope-cell">Signer</span>
+            </div>
+          </div>
+          <div class="scope-row">
+            <span class="label">Designed,<br>not shipped</span>
+            <div class="scope-track">
+              <span class="scope-cell">Signer &mdash; signed</span>
+              <span class="scope-cell ed cut">Editor</span>
+              <span class="scope-cell cut">Signer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <figcaption>
+          <b>The version that shipped never meets the problem I solved.</b> With the editor
+          first, nothing is signed yet, so immutability holds for free. The dashed flow is the
+          one that needed the rules — and it is still the part I would most want to finish.
+        </figcaption>
+      </div>
+    </figure>
+
+    <div class="wrap">
+      <h2>Outcome</h2>
+      <p>
+        The feature shipped and ran without incident. The client's workflow was unblocked and
+        the deal closed. It was also used almost exclusively by that one client.
+      </p>
+
+      <h2>What I'd do differently</h2>
+      <p>
+        <strong>We never showed the design to the client who asked for it.</strong> The team's
+        framing was that this was our product decision, not contract work, and validating with
+        them would have undercut that framing. It protected how we saw ourselves, and it cost
+        us the only real feedback loop we had.
+      </p>
+      <p>
+        <strong>We solved a structural problem without checking whether the structure was
+        common.</strong> The gap — that the person who starts a signing workflow often isn't
+        the person who understands it — was, I believe, real well beyond this company.
+        DottedSign's own documentation describes the same split from the other direction: a
+        salesperson starting a contract and handing it to an assistant. But I never tested
+        that. I designed for it and moved on.
+      </p>
+      <p class="pull">
+        Recognizing an insight and demonstrating it has a market are two different pieces of
+        work. I did the first one.
+      </p>
+    </div>
+  </div>
+</article>
+
+<div class="wrap">
+  <nav class="next" aria-label="Next case study">
+    <span class="label">Next case</span>
+    <a href="mobile-id.html">Mobile ID <span class="arrow" aria-hidden="true">&rarr;</span></a>
+  </nav>
+</div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Looking for a co-op from Winter&nbsp;2027.</h2>
+        <p class="hero-lead" style="font-size: var(--fs-body)">
+          I'm most useful on B2B products with real operational complexity behind them.
+          If that's what you're building, I'd like to hear about it.
+        </p>
+      </div>
+      <ul class="contact-list">
+        <li><a href="mailto:baronwang.ca@gmail.com">baronwang.ca@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/ling-lian-wang">LinkedIn</a></li>
+        <li><a href="assets/Ling-Lian-Wang-Resume.pdf">Résumé (PDF)</a></li>
+      </ul>
+    </div>
+    <p class="colophon">
+      Interfaces rebuilt from scratch to explain the design. No confidential material or
+      original product assets.
+    </p>
+  </div>
+</footer>
+</body>
+</html>
