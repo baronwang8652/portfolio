@@ -70,7 +70,7 @@
             certificate authority's API <b>sealed a signature the moment it verified</b> &mdash;
             which decided when verification could happen at all.</dd></div>
           <div><dt>What I did</dt><dd>Split the feature between the person who requires it and the
-            person who satisfies it, <b>gated both legal agreements behind actually reading them</b>,
+            person who satisfies it, <b>gated the legal agreement behind actually reading it</b>,
             kept every screen inside our own product rather than redirecting, and designed the
             failure chain through to notifying the one person who could resolve it.</dd></div>
           <div><dt>Outcome</dt><dd>Shipped and demoed well. <b>Adoption stayed low.</b></dd></div>
@@ -182,13 +182,13 @@
 
       <h3><span class="n">02</span>Consent you can't click past</h3>
       <p>
-        Verification runs on two separate legal agreements — the carrier authentication terms
-        and the certificate service terms — and each one has to be accepted on its own.
+        Before verification can start, the signer has to accept the carrier authentication
+        terms — a legal agreement governing how their phone number and ID will be checked.
       </p>
       <p>
         In most products that means a checkbox next to a link nobody opens. I designed it the
         other way: <strong>the consent checkbox stays disabled until the terms have actually been
-        scrolled to the end</strong>, for each agreement separately. Reading isn't encouraged;
+        scrolled to the end</strong>. Reading isn't encouraged;
         it's the precondition.
       </p>
       <p>
@@ -217,7 +217,7 @@
               </div>
               <div class="dialog-foot">
                 <span class="btn">Cancel</span>
-                <span class="btn" style="opacity:.45">Next</span>
+                <span class="btn" style="opacity:.45">Confirm</span>
               </div>
             </div>
             <p class="cap">Not scrolled — consent locked</p>
@@ -239,7 +239,7 @@
               </div>
               <div class="dialog-foot">
                 <span class="btn">Cancel</span>
-                <span class="btn primary">Next</span>
+                <span class="btn primary">Confirm</span>
               </div>
             </div>
             <p class="cap">Scrolled to the end — <b>consent unlocked</b></p>
@@ -248,9 +248,9 @@
       </div>
       <div class="wrap">
         <figcaption>
-          <b>Two agreements, each gated the same way.</b> The checkbox and the Next button stay
-          inert until the text has been read to the bottom — twice, once per agreement, before
-          verification can begin at all.
+          <b>The same agreement, before and after reading it.</b> The checkbox and the Confirm
+          button stay inert until the text has been read to the bottom — only then can
+          verification begin.
         </figcaption>
       </div>
     </figure>
@@ -259,7 +259,7 @@
       <h3><span class="n">03</span>Move the signer to their phone without losing them</h3>
       <p>
         Carrier verification needs the phone. Most enterprise signing happens on a desktop.
-        So after the agreements, a QR code hands the signer across to their own device — and
+        So once the terms are accepted, a QR code hands the signer across to their own device — and
         if they were already signing on mobile, there is no QR code at all.
       </p>
       <p>
@@ -484,7 +484,7 @@
       <h2>Outcome</h2>
       <p>
         The feature shipped and worked. Sales reported that clients found the flow clear and
-        easy to follow in demos — which, for a step involving two legal agreements, a QR
+        easy to follow in demos — which, for a step involving a legal agreement, a QR
         handoff, a carrier network requirement and six identity fields, was the bar.
       </p>
       <p>Adoption was low.</p>
