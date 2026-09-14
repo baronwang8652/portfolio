@@ -811,3 +811,66 @@ svg.hint { width: 13px; height: 13px; flex: none; color: var(--fg-mute); stroke-
 .facts dt { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .1em;
             text-transform: uppercase; color: var(--fg-mute); padding-top: 3px; }
 .facts dd { margin: 0; color: var(--fg-dim); font-size: var(--fs-sm); line-height: 1.6; }
+
+/* ============================================================
+   FLOW MAP — the whole journey on one screen, each design
+   decision pinned where it happens. Site palette: this is my
+   analysis of the product, not a screen from it.
+   ============================================================ */
+.flowmap {
+  max-width: 58rem !important; margin-bottom: var(--s-8) !important;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg-1); overflow: hidden;
+}
+.flowmap-title {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4);
+  flex-wrap: wrap; padding: var(--s-4) var(--s-5); border-bottom: 1px solid var(--line);
+}
+.flowmap-title .legend { font-size: var(--fs-micro); color: var(--fg-mute); }
+.flowmap-head, .flowmap-row { display: grid; grid-template-columns: repeat(var(--lanes), minmax(0,1fr)); }
+.flowmap-head { background: var(--bg-2); border-bottom: 1px solid var(--line); }
+.flowmap-head span {
+  padding: var(--s-2) var(--s-3); border-left: 1px solid var(--line-soft);
+  font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .09em;
+  text-transform: uppercase; color: var(--fg-mute);
+}
+.flowmap-head span:first-child { border-left: 0; }
+
+.flowmap-body { position: relative; padding-block: var(--s-2); }
+.flowmap-body::before {            /* continuous lane dividers */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to right, var(--line-soft) 1px, transparent 1px)
+              0 0 / calc(100% / var(--lanes)) 100%;
+}
+.fstep {
+  grid-column: var(--lane); position: relative;
+  margin: 3px 6px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 7px; background: var(--bg);
+  font-size: var(--fs-micro); line-height: 1.4; color: var(--fg-mute);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 7px;
+}
+.fstep b { color: var(--fg); font-weight: 500; font-size: 0.8125rem; }
+.fstep.sys { background: transparent; border-style: dashed; }
+.fstep .tags { display: inline-flex; gap: 3px; }
+.fstep .tags a, .fstep .branch a {
+  font-family: var(--font-mono); color: var(--accent); background: var(--accent-wash);
+  border: 1px solid var(--accent-edge); border-radius: 4px; padding: 0 5px; text-decoration: none;
+  transition: background 160ms var(--ease), color 160ms var(--ease);
+}
+.fstep .tags a:hover, .fstep .tags a:focus-visible,
+.fstep .branch a:hover, .fstep .branch a:focus-visible { background: var(--accent); color: var(--on-accent); }
+.fstep .branch {
+  flex-basis: 100%; border-top: 1px dashed var(--line); padding-top: 4px; margin-top: 2px;
+  color: var(--fg-dim);
+}
+.fstep .branch::before { content: '↳ '; color: var(--fg-mute); }
+
+@media (max-width: 760px) {
+  .flowmap-head, .flowmap-body::before { display: none; }
+  .flowmap-row { grid-template-columns: 1fr; }
+  .fstep { grid-column: 1; }
+  .fstep::before {
+    content: attr(data-actor); font-family: var(--font-mono); letter-spacing: .09em;
+    text-transform: uppercase; color: var(--fg-mute);
+  }
+}
+.article-body h3[id] { scroll-margin-top: 88px; }

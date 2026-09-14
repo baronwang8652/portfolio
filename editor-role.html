@@ -81,6 +81,22 @@
         </dl>
       </aside>
 
+      <div class="flowmap" style="--lanes:3">
+        <div class="flowmap-title"><span class="label">The flow</span><span class="legend">Numbers link to the design decisions below</span></div>
+        <div class="flowmap-head" aria-hidden="true"><span>Initiator</span><span>DottedSign</span><span>Editor</span></div>
+        <div class="flowmap-body" role="list">
+          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Creates the task, adds recipients</b></div></div>
+          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Sets one recipient as Editor</b><span class="tags"><a href="#d01">01</a><a href="#d02">02</a></span><span class="branch">Changing a role later warns before fields are deleted <a href="#d04">04</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Turns on ordered signing</b><span class="tags"><a href="#d03">03</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Sends the task</b></div></div>
+          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Notifies the editor; shows the initiator it's waiting</b><span class="tags"><a href="#d07">07</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Opens it with the initiator's plan features</b><span class="tags"><a href="#d05">05</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Adds signers and fields from “No signer set”</b><span class="tags"><a href="#d07">07</a></span><span class="branch">Or hands over to another editor, or declines and ends the task <a href="#d06">06</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Verifies identity if required, then sends</b><span class="tags"><a href="#d08">08</a></span></div></div>
+          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Confirms completion, invites the signers</b><span class="tags"><a href="#d08">08</a></span></div></div>
+        </div>
+      </div>
+
       <h2>The system I was designing inside</h2>
       <p>
         An e-signature product rests on one promise: once a document is signed, nothing about
@@ -124,7 +140,7 @@
 
       <h2>Design decisions</h2>
 
-      <h3><span class="n">01</span>Make Editor a role, not a new surface</h3>
+      <h3 id="d01"><span class="n">01</span>Make Editor a role, not a new surface</h3>
       <p>
         A task in DottedSign is already a list of recipients. Each row has an avatar, a role,
         a name and an email, and a <em>⋯</em> menu holding that recipient's advanced settings.
@@ -226,7 +242,7 @@
     </figure>
 
     <div class="wrap">
-      <h3><span class="n">02</span>Let the panel shed what the role can't use</h3>
+      <h3 id="d02"><span class="n">02</span>Let the panel shed what the role can't use</h3>
       <p>
         A signer's advanced settings carry two things an editor has no use for: <strong>Checkers</strong>,
         who confirm the fields are properly filled before a signer completes, and <strong>Signer's
@@ -314,7 +330,7 @@
     </figure>
 
     <div class="wrap">
-      <h3><span class="n">03</span>Make the invalid state impossible to build</h3>
+      <h3 id="d03"><span class="n">03</span>Make the invalid state impossible to build</h3>
       <p>
         An editor only makes sense in an ordered flow. Someone has to go first and hand on to
         the next person; in unordered signing, where everyone signs at once, there is no
@@ -330,7 +346,7 @@
         invalid state unreachable means they never get to be wrong.
       </p>
 
-      <h3><span class="n">04</span>Say out loud what a role change destroys</h3>
+      <h3 id="d04"><span class="n">04</span>Say out loud what a role change destroys</h3>
       <p>
         Switching a recipient's role invalidates the fields and settings already attached to
         them — a signature field belonging to a person who is no longer a signer has nowhere
@@ -403,7 +419,7 @@
     </figure>
 
     <div class="wrap">
-      <h3><span class="n">05</span>Inherit the initiator's plan, not your own</h3>
+      <h3 id="d05"><span class="n">05</span>Inherit the initiator's plan, not your own</h3>
       <p>This is the decision I spent the longest on.</p>
       <p>
         DottedSign gates features by account plan. If the initiator's plan includes advanced
@@ -418,7 +434,7 @@
         the editor to be someone outside the company entirely.
       </p>
 
-      <h3><span class="n">06</span>Let the editor hand the job on, or refuse it</h3>
+      <h3 id="d06"><span class="n">06</span>Let the editor hand the job on, or refuse it</h3>
       <p>
         Being assigned as the editor doesn't make you the right editor. The initiator is
         guessing about someone else's knowledge and availability, and sometimes the guess is
@@ -467,7 +483,7 @@
     </figure>
 
     <div class="wrap">
-      <h3><span class="n">07</span>Show both sides of the wait</h3>
+      <h3 id="d07"><span class="n">07</span>Show both sides of the wait</h3>
       <p>
         Handing a task to a second person creates a gap where nothing appears to be happening.
         For the initiator, the task simply stops. For the editor, it arrives without context.
@@ -543,7 +559,7 @@
     </figure>
 
     <div class="wrap">
-      <h3><span class="n">08</span>Name who is asking, and for what</h3>
+      <h3 id="d08"><span class="n">08</span>Name who is asking, and for what</h3>
       <p>
         An editor can be required to verify their identity before they finish. Verification
         prompts are where people stop and wonder whether they are being phished, so the modal
