@@ -870,7 +870,7 @@ svg.hint { width: 13px; height: 13px; flex: none; color: var(--fg-mute); stroke-
   .fstep { grid-column: 1; }
   .fstep::before {
     content: attr(data-actor); font-family: var(--font-mono); letter-spacing: .09em;
-    text-transform: uppercase; color: var(--fg-mute);
+    text-transform: uppercase; color: var(--fg-mute); flex-basis: 100%;
   }
 }
 .article-body h3[id] { scroll-margin-top: 88px; }
