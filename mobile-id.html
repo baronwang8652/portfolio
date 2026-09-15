@@ -88,7 +88,7 @@
       </div>
       <div class="flowscroll-track" tabindex="0" role="region"
            aria-label="User flow diagram. Scroll horizontally to follow it.">
-        <img src="assets/flow-mobile-id.svg" width="7356" height="1400" alt="Swimlane user flow of Mobile ID across four lanes: initiator, signer on desktop, signer on phone, and DottedSign with TWCA. It runs from requiring verification, through the QR handoff and carrier check, to either success or a lockout that only the initiator can resolve." decoding="async">
+        <img src="assets/flow-mobile-id.svg" width="6194" height="1596" alt="Swimlane user flow of Mobile ID across four lanes: initiator, the signer's signing device, the signer's phone for verification, and DottedSign with TWCA. It runs from requiring verification, through the QR handoff (skipped when the signer is already on a phone) and the carrier check, to either success or a lockout that only the initiator can resolve. System errors show an error code and don't count toward the five attempts." decoding="async">
       </div>
     </figure>
 
@@ -476,7 +476,9 @@
           <div class="state">
             <span class="k">sys</span>
             <span><b>System-level errors show an error code</b> the signer can bring to support,
-              instead of a generic apology that gives our team nothing to work with</span>
+              instead of a generic apology that gives our team nothing to work with. They
+              don't count toward the five attempts: the signer didn't cause them, so the
+              initiator isn't billed for them</span>
             <span class="out">diagnosable</span>
           </div>
         </div>
