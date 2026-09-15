@@ -79,22 +79,20 @@
         </dl>
       </aside>
 
-      <div class="flowmap" style="--lanes:4">
-        <div class="flowmap-title"><span class="label">The flow</span><span class="legend">Numbers link to the design decisions below</span></div>
-        <div class="flowmap-head" aria-hidden="true"><span>Initiator</span><span>Signer · desktop</span><span>Signer · phone</span><span>TWCA · DottedSign</span></div>
-        <div class="flowmap-body" role="list">
-          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Requires Mobile ID</b><span class="tags"><a href="#d01">01</a></span><span class="branch">Signer's number optional</span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:2" data-actor="Signer · desktop"><b>Signs, then submits</b></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:2" data-actor="Signer · desktop"><b>Reads terms to unlock consent</b><span class="tags"><a href="#d02">02</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:2" data-actor="Signer · desktop"><b>Scans QR, Wi-Fi off</b><span class="tags"><a href="#d03">03</a><a href="#d04">04</a></span><span class="branch">Already on a phone: no QR</span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Signer · phone"><b>Enters number, carrier, ID</b><span class="tags"><a href="#d04">04</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:4" data-actor="TWCA · DottedSign"><b>Carrier checks details</b><span class="tags"><a href="#d06">06</a><a href="#d07">07</a></span><span class="branch">5 failures: locked until the initiator acts</span></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:4" data-actor="TWCA · DottedSign"><b>Stamps personal certificate</b></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Signer · phone"><b>“Return to your computer”</b><span class="tags"><a href="#d05">05</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:2" data-actor="Signer · desktop"><b>Signing completed</b><span class="tags"><a href="#d05">05</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:4" data-actor="TWCA · DottedSign"><b>All signed: system certificate</b><span class="tags"><a href="#d05">05</a></span></div></div>
-        </div>
+    </div>
+
+    <figure class="flowscroll">
+      <div class="wrap flowscroll-head">
+        <span class="label">The flow</span>
+        <span class="flowscroll-hint" aria-hidden="true">Scroll sideways to follow it &rarr;</span>
       </div>
+      <div class="flowscroll-track" tabindex="0" role="region"
+           aria-label="User flow diagram. Scroll horizontally to follow it.">
+        <img src="assets/flow-mobile-id.svg" width="7356" height="1400" alt="Swimlane user flow of Mobile ID across four lanes: initiator, signer on desktop, signer on phone, and DottedSign with TWCA. It runs from requiring verification, through the QR handoff and carrier check, to either success or a lockout that only the initiator can resolve." decoding="async">
+      </div>
+    </figure>
+
+    <div class="wrap">
 
       <h2>Why this existed</h2>
       <p>

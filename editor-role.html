@@ -81,21 +81,20 @@
         </dl>
       </aside>
 
-      <div class="flowmap" style="--lanes:3">
-        <div class="flowmap-title"><span class="label">The flow</span><span class="legend">Numbers link to the design decisions below</span></div>
-        <div class="flowmap-head" aria-hidden="true"><span>Initiator</span><span>DottedSign</span><span>Editor</span></div>
-        <div class="flowmap-body" role="list">
-          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Creates the task, adds recipients</b></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Sets one recipient as Editor</b><span class="tags"><a href="#d01">01</a><a href="#d02">02</a></span><span class="branch">Changing a role later warns before fields are deleted <a href="#d04">04</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Turns on ordered signing</b><span class="tags"><a href="#d03">03</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:1" data-actor="Initiator"><b>Sends the task</b></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Notifies the editor; shows the initiator it's waiting</b><span class="tags"><a href="#d07">07</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Opens it with the initiator's plan features</b><span class="tags"><a href="#d05">05</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Adds signers and fields from “No signer set”</b><span class="tags"><a href="#d07">07</a></span><span class="branch">Or hands over to another editor, or declines and ends the task <a href="#d06">06</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep" style="--lane:3" data-actor="Editor"><b>Verifies identity if required, then sends</b><span class="tags"><a href="#d08">08</a></span></div></div>
-          <div class="flowmap-row"><div class="fstep sys" style="--lane:2" data-actor="DottedSign"><b>Confirms completion, invites the signers</b><span class="tags"><a href="#d08">08</a></span></div></div>
-        </div>
+    </div>
+
+    <figure class="flowscroll">
+      <div class="wrap flowscroll-head">
+        <span class="label">The flow</span>
+        <span class="flowscroll-hint" aria-hidden="true">Scroll sideways to follow it &rarr;</span>
       </div>
+      <div class="flowscroll-track" tabindex="0" role="region"
+           aria-label="User flow diagram. Scroll horizontally to follow it.">
+        <img src="assets/flow-editor-role.svg" width="5756" height="1258" alt="Swimlane user flow of the Editor Role across four lanes: initiator, DottedSign, editor and signer. It runs from creating the task and assigning an editor, through the editor accepting, handing over or declining the edit, to the signing invitation." decoding="async">
+      </div>
+    </figure>
+
+    <div class="wrap">
 
       <h2>The system I was designing inside</h2>
       <p>
