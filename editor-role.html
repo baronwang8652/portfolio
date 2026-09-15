@@ -155,81 +155,7 @@
 
     <figure class="figure">
       <div class="wrap">
-        <div class="mock">
-          <div class="mock-bar">
-            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span>Create a signing task — Manage Recipients</span>
-          </div>
-          <div class="mock-body">
-            <div class="flow">
-              <div>
-                <div class="mock-h" style="margin-bottom:var(--s-3)">Manage Recipients</div>
-                <p class="setorder" style="margin-bottom:var(--u3)">
-                  <span class="box" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg>
-                  </span>
-                  Set Order
-                  <span class="aside">Import Signer Group
-                    <svg class="hint" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
-                  </span>
-                </p>
-                <div class="rcpts ordered">
-                  <div class="rcpt is-editor">
-                    <span class="av c1" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
-                    </span>
-                    <span class="role">Editor</span>
-                    <span class="fld filled">K. Sato</span>
-                    <span class="fld filled">sato@&mdash;.jp</span>
-                    <span class="dots" aria-hidden="true">&#8943;</span>
-                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
-                  </div>
-                  <div class="rcpt">
-                    <span class="av c2" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-                    </span>
-                    <span class="role">Signers</span>
-                    <span class="fld filled">Customer</span>
-                    <span class="fld filled">info@&mdash;.com</span>
-                    <span class="dots" aria-hidden="true">&#8943;</span>
-                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
-                  </div>
-                </div>
-                <p class="link" style="margin-top:var(--u3)">Add Recipient</p>
-              </div>
-
-              <div class="flow-arrow">
-                <span>Row menu &#8943;</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </div>
-
-              <div class="dialog">
-                <div class="dialog-head">Advanced Settings</div>
-                <div class="dialog-body">
-                  <div class="fset">
-                    <span class="lg">Current Role</span>
-                    <span class="radio"><span class="rb"></span>Signer</span>
-                    <span class="radio on">
-                      <span class="rb"></span>Editor
-                      <svg class="hint" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
-                      <span class="crown" title="Paid plan feature">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg>
-                      </span>
-                    </span>
-                  </div>
-                  <div class="fset">
-                    <span class="lg">Identity Authentication</span>
-                    <span class="val">Not required</span>
-                    <span class="lnk">Edit</span>
-                  </div>
-                </div>
-                <div class="dialog-foot">
-                  <span class="btn">Cancel</span><span class="btn primary">Confirm</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <img class="shot" src="assets/screens/e-d01-role.png" width="920" height="710" alt="DottedSign Advanced Settings dialog open over the Manage Recipients step, with Editor selected as the current role and Identity Authentication set to Not required." loading="lazy" decoding="async">
       </div>
       <div class="wrap">
         <figcaption>
@@ -262,58 +188,11 @@
       <div class="wrap">
         <div class="compare">
           <figure>
-            <div class="mock">
-              <div class="dialog-head">Advanced Settings</div>
-              <div class="dialog-body">
-                <div class="fset">
-                  <span class="lg">Current Role</span>
-                  <span class="radio on"><span class="rb"></span>Signer</span>
-                  <span class="radio"><span class="rb"></span>Editor
-                    <span class="crown"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg></span>
-                  </span>
-                </div>
-                <div class="fset">
-                  <span class="lg">Identity Authentication</span>
-                  <span class="val">Not required</span><span class="lnk">Edit</span>
-                </div>
-                <div class="fset">
-                  <span class="lg">Checkers</span>
-                  <span class="tip">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
-                    <span>The Checker(s) confirms if all fields are properly filled in before
-                      the signer completes the signing process.</span>
-                  </span>
-                  <span class="fld" style="border:1px solid var(--line);border-radius:6px;padding:7px var(--s-3);color:var(--fg-mute)">Select checkers…</span>
-                </div>
-                <div class="fset">
-                  <span class="lg">Signer's Final Confirmation</span>
-                  <span class="permrow">
-                    <span>Don't need to ask for signers' confirmation after passing the
-                      checking process.</span>
-                    <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span>
-                  </span>
-                </div>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d02-signer.png" width="489" height="822" alt="Advanced Settings with the role set to Signer: Current Role, Identity Authentication, Checkers and Signer's Final Confirmation." loading="lazy" decoding="async">
             <p class="cap">Role: signer</p>
           </figure>
           <figure>
-            <div class="mock">
-              <div class="dialog-head">Advanced Settings</div>
-              <div class="dialog-body">
-                <div class="fset">
-                  <span class="lg">Current Role</span>
-                  <span class="radio"><span class="rb"></span>Signer</span>
-                  <span class="radio on"><span class="rb"></span>Editor
-                    <span class="crown"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.5 11h-15L3 7z"/></svg></span>
-                  </span>
-                </div>
-                <div class="fset">
-                  <span class="lg">Identity Authentication</span>
-                  <span class="val">Not required</span><span class="lnk">Edit</span>
-                </div>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d02-editor.png" width="489" height="561" alt="Advanced Settings with the role set to Editor: only Current Role and Identity Authentication remain." loading="lazy" decoding="async">
             <p class="cap">Role: <b>editor</b> — two settings gone</p>
           </figure>
         </div>
@@ -361,49 +240,11 @@
       <div class="wrap">
         <div class="compare">
           <figure>
-            <div class="mock">
-              <div class="dialog-head">Warning</div>
-              <div class="dialog-body">
-                <p class="msg">
-                  If you change the role in the task, the existing settings or fields will be
-                  deleted, and the recipient's role will revert to its default values.
-                  Are you sure you want to change the role?
-                </p>
-              </div>
-              <div class="dialog-foot">
-                <span class="btn">Cancel</span><span class="btn danger">Confirm</span>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d04-warning.png" width="460" height="288" alt="Warning dialog: If you change the role in the task, the existing settings or fields will be deleted, and the recipient's role will revert to its default values. Cancel or Confirm." loading="lazy" decoding="async">
             <p class="cap">Destructive change, stated plainly</p>
           </figure>
           <figure>
-            <div class="mock">
-              <div class="mock-body">
-                <p class="setorder">
-                  <span class="box" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg>
-                  </span>
-                  Set Order
-                </p>
-                <div class="tip">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
-                  <span>Editors can only be used in ordered signing. Once the editor role is
-                    set, Set Order will be automatically selected.</span>
-                </div>
-                <div class="rcpts">
-                  <div class="rcpt is-editor">
-                    <span class="av c1" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
-                    </span>
-                    <span class="role">Editor</span>
-                    <span class="fld filled">K. Sato</span>
-                    <span class="fld filled">sato@&mdash;.jp</span>
-                    <span class="dots" aria-hidden="true">&#8943;</span>
-                    <span class="grip" aria-hidden="true">&#8942;&#8942;</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d04-setorder.png" width="500" height="230" alt="Manage Recipients after the role change: Set Order is checked and locked, and the recipient row shows Editor, Administrator." loading="lazy" decoding="async">
             <p class="cap">The precondition, <b>satisfied for you</b></p>
           </figure>
         </div>
@@ -449,28 +290,7 @@
 
     <figure class="figure">
       <div class="wrap">
-        <div class="mock">
-          <div class="dialog-head">Signer's Permissions</div>
-          <div class="dialog-body">
-            <div class="who">
-              <span class="av c1" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="M18 13.5 21 16l-4.5 4.5H14V18z"/></svg>
-              </span>
-              <span><span class="who-role">Editor</span><br>
-                <span class="who-name">K. Sato (sato@&mdash;.jp)</span></span>
-            </div>
-            <div class="permlist">
-              <span class="permrow"><span>Hand over editing privilege</span>
-                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
-              <span class="permrow"><span>Decline to edit</span>
-                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
-              <span class="permrow"><span>View other signers' attachments before the task is completed</span>
-                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
-              <span class="permrow"><span>Receive all signers' attachments and the original files after the task is completed</span>
-                <span class="cbx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 13 4 4L19 7"/></svg></span></span>
-            </div>
-          </div>
-        </div>
+        <img class="shot" src="assets/screens/e-d06-permissions.png" width="567" height="324" alt="Signer's Permissions for the editor: Hand over editing privilege, Decline to edit, and two attachment permissions, all checked." loading="lazy" decoding="async">
       </div>
       <div class="wrap">
         <figcaption>
@@ -500,50 +320,11 @@
       <div class="wrap">
         <div class="compare">
           <figure>
-            <div class="mock">
-              <p class="banner">The task is waiting for the editor to complete the edits.</p>
-              <div class="appbar">
-                <span class="title">Quotation_ABC Company Inc.</span>
-                <span class="btn primary">File Info</span>
-                <span class="dots" aria-hidden="true">&#8943;</span>
-              </div>
-              <div class="paper">
-                <span class="h">Quotation</span>
-                <span class="ln m"></span><span class="ln"></span><span class="ln s"></span>
-                <span class="row">Customer:</span>
-                <span class="row">Address:</span>
-                <span class="row">Email:</span>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d07-initiator.png" width="600" height="400" alt="Initiator view of the task with a red banner: The task is waiting for the editor to complete the edits." loading="lazy" decoding="async">
             <p class="cap">Initiator — stalled, and told why</p>
           </figure>
           <figure>
-            <div class="mock">
-              <div class="appbar">
-                <span class="title">Quotation_ABC Company Inc.</span>
-                <span class="btn primary">Continue</span>
-              </div>
-              <div class="editor-shell">
-                <div class="rail">
-                  <span class="grp">Upload Documents <span class="ed">Edit</span></span>
-                  <span class="grp">Recipient <span class="ed">Edit</span></span>
-                  <span class="grp" style="border:0">Create Fields</span>
-                  <span class="selector empty">No signer set <span class="cx">&#9662;</span></span>
-                  <span class="flds">
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21c3-1 5-3 9-9 2-3 4-6 6-8"/><path d="M14 6l4 4"/></svg>Signature</span>
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Date</span>
-                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg>Text</span>
-                  </span>
-                </div>
-                <div class="paper">
-                  <span class="h">Quotation</span>
-                  <span class="ln m"></span><span class="ln"></span>
-                  <span class="row">Customer: <span class="filled-field">ABC Company Inc.<span class="req">*</span></span></span>
-                  <span class="row">Address: <span class="filled-field">123 Main Street, Anytown<span class="req">*</span></span></span>
-                  <span class="row">Email: <span class="filled-field">info@abccompany.com<span class="req">*</span></span></span>
-                </div>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d07-editor.png" width="470" height="600" alt="Create Fields step with the signer selector reading No signer set, above the Signature, Date, Text and other field tools." loading="lazy" decoding="async">
             <p class="cap">Editor — <b>an empty state that is the brief</b></p>
           </figure>
         </div>
@@ -576,36 +357,11 @@
       <div class="wrap">
         <div class="compare">
           <figure>
-            <div class="mock">
-              <div class="dialog-head">Verify Your Identity</div>
-              <div class="dialog-body">
-                <p class="msg">
-                  <b>Sales Representative</b> requires you to verify your identity with
-                  <b>Receive OTP via email</b>.
-                </p>
-                <span class="btn primary" style="justify-self:center">Get OTP verification code</span>
-              </div>
-              <div class="dialog-foot">
-                <span class="btn">Cancel</span>
-                <span class="btn" style="opacity:.45">Confirm</span>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d08-verify.png" width="489" height="498" alt="Verify Your Identity dialog: Sales Representative requires you to verify your identity with Receive OTP via email, with a Get OTP verification code button." loading="lazy" decoding="async">
             <p class="cap">Requester named, method named</p>
           </figure>
           <figure>
-            <div class="mock">
-              <div class="mock-body" style="text-align:center;justify-items:center;padding-block:var(--s-8)">
-                <span class="mock-h" style="color:var(--accent);font-size:1.15rem">Task Editing Completed</span>
-                <p class="mock-sub" style="max-width:26rem">
-                  A completed signed document will be sent to your email once all parties
-                  finish signing.
-                </p>
-                <span class="toast">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
-                  Task successfully edited.
-                </span>
-              </div>
-            </div>
+            <img class="shot" src="assets/screens/e-d08-complete.png" width="600" height="590" alt="Task Editing Completed page explaining that the signed document will be emailed once all parties finish signing, with a Task successfully edited toast." loading="lazy" decoding="async">
             <p class="cap">A real ending, <b>not a redirect</b></p>
           </figure>
         </div>

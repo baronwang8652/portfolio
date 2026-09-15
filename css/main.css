@@ -838,3 +838,12 @@ svg.hint { width: 13px; height: 13px; flex: none; color: var(--fg-mute); stroke-
 }
 .flowscroll-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .article-body h3[id] { scroll-margin-top: 88px; }
+
+/* ---- product screens exported from Figma (replace the hand-built mocks) ---- */
+.shot {
+  display: block; width: 100%; height: auto; border-radius: 8px;
+  background: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 12px 32px rgba(0,0,0,.35);
+}
+.compare > figure > .shot { align-self: start; }
+.shot.phone { width: min(100%, 17rem); justify-self: center; border-radius: 22px; }
+.figure .wrap > .shot { max-width: 58rem; }
