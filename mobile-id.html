@@ -271,7 +271,7 @@
             <p class="cap">Desktop — the handoff</p>
           </figure>
           <figure>
-            <img class="shot phone" src="assets/screens/m-d04-phone.png" width="390" height="900" alt="Phone form to confirm details and verify: mobile number (pre-filled and locked), carrier, national ID number, date, place and type of issue, and a Verify button." loading="lazy" decoding="async">
+            <img class="shot device" src="assets/screens/m-d04-phone.png" width="390" height="900" alt="Phone form to confirm details and verify: mobile number (pre-filled and locked), carrier, national ID number, date, place and type of issue, and a Verify button." loading="lazy" decoding="async">
             <p class="cap">Phone — <b>six fields, all of them required by the carrier</b></p>
           </figure>
         </div>
@@ -305,7 +305,7 @@
       <div class="wrap">
         <div class="compare stack">
           <figure>
-            <img class="shot phone" src="assets/screens/m-d05-phone.png" width="390" height="900" alt="Phone showing Identity verified: Please close this page and return to your computer to continue." loading="lazy" decoding="async">
+            <img class="shot device" src="assets/screens/m-d05-phone.png" width="390" height="900" alt="Phone showing Identity verified: Please close this page and return to your computer to continue." loading="lazy" decoding="async">
             <p class="cap">Phone — an instruction, not just a state</p>
           </figure>
           <figure>
@@ -345,49 +345,6 @@
       </p>
     </div>
 
-    <figure class="figure">
-      <div class="wrap">
-        <div class="states">
-          <div class="state">
-            <span class="k">1&ndash;5</span>
-            <span><b>Wrong details</b> — the signer corrects their input and tries again</span>
-            <span class="out">recoverable</span>
-          </div>
-          <div class="state stop">
-            <span class="k">5+</span>
-            <span><b>Verification locks</b> — and stays locked until the initiator lifts it,
-              because every attempt is billed to their account</span>
-            <span class="out">blocked</span>
-          </div>
-          <div class="state stop">
-            <span class="k">&rarr;</span>
-            <span><b>The task moves to pending</b>, rather than failing or quietly expiring</span>
-            <span class="out">held, not lost</span>
-          </div>
-          <div class="state hand">
-            <span class="k">&rarr;</span>
-            <span><b>The initiator is emailed</b> and chooses: unlock verification, switch the
-              signer to a different method, or end the task</span>
-            <span class="out">handed off</span>
-          </div>
-          <div class="state">
-            <span class="k">sys</span>
-            <span><b>System-level errors show an error code</b> the signer can bring to support,
-              instead of a generic apology that gives our team nothing to work with. They
-              don't count toward the five attempts: the signer didn't cause them, so the
-              initiator isn't billed for them</span>
-            <span class="out">diagnosable</span>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <figcaption>
-          <b>Reconstructed from the specification — these states aren't in the product's public
-          walkthrough.</b> Five attempts, then a lock with no timer, then a held task, then the
-          person who pays for verification deciding what happens next.
-        </figcaption>
-      </div>
-    </figure>
 
     <div class="wrap">
       <h3 id="d07"><span class="n">07</span>Decide what the system should not solve</h3>
