@@ -840,10 +840,14 @@ svg.hint { width: 13px; height: 13px; flex: none; color: var(--fg-mute); stroke-
 .article-body h3[id] { scroll-margin-top: 88px; }
 
 /* ---- product screens exported from Figma (replace the hand-built mocks) ---- */
-.shot {
-  display: block; width: 100%; height: auto; border-radius: 8px;
-  background: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 12px 32px rgba(0,0,0,.35);
-}
+.shot { display: block; max-width: 100%; height: auto; }
+/* full 1440x900 screens: keep the original ratio, fill the column */
+.shot.screen { width: 100%; border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.35); }
+/* dialogs exported as their own window (shadow baked in): native size, never upscaled */
+.shot.window { justify-self: start; border-radius: 4px; box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+.shot.phone { width: min(100%, 17rem); border-radius: 22px; box-shadow: 0 12px 32px rgba(0,0,0,.35); }
 .compare > figure > .shot { align-self: start; }
-.shot.phone { width: min(100%, 17rem); justify-self: center; border-radius: 22px; }
-.figure .wrap > .shot { max-width: 58rem; }
+.compare > figure > .shot.phone { justify-self: center; }
+.figure .wrap > .shot { max-width: min(100%, 58rem); }
+@media (min-width: 780px) { .compare.stack { grid-template-columns: 1fr; } }
+.compare.stack > figure > .shot.phone { justify-self: start; }
